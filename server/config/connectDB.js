@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-require('dotenv').config();
 
 async function connectDB(){
     try {
@@ -12,10 +11,10 @@ async function connectDB(){
         })
 
         connection.on('error',(error)=>{
-            console.log("Something is wrong in mongodb", error)
+            console.log("Something is wrong in mongodb ",error)
         })
     } catch (error) {
-        console.log("Something is wrong", error)
+        console.log("Something is wrong ",error)
     }
 }
 
