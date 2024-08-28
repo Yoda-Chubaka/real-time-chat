@@ -4,7 +4,12 @@ async function userDetails(request, response) {
     try {
         const token = request.cookies.token || "";
 
-        const user = await getUserDetailsFromToken();
+        const user = await getUserDetailsFromToken(token);
+
+        return response.status(200).json({
+            message: "User details",
+            data: user
+        });
 
     } catch (error) {
         return reponse.status(500).json({
@@ -13,3 +18,5 @@ async function userDetails(request, response) {
         })
     }
 }
+
+module.exports = userDetails;
