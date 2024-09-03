@@ -4,7 +4,9 @@ module.exports = {
     "./src/**/*.{html,js}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      primary: "#42897b"
+    },
   },
   plugins: [],
 }
