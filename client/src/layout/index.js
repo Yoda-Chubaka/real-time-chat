@@ -4,14 +4,17 @@ import logo from "../assets/logo-10.png";
 const AuthLayouts = ({children}) => {
   return (
     <>
-        <header className="flex justify-center items-center py-3 h-25 shadow-md bg-white">
-              <img
+        <div className="flex justify-center items-center py-3 h-25 shadow-md bg-white">
+          <header>
+              <img className="flex items-center"
                 src={logo}
                 alt="logo"
-                width={100}
-                height={60}
+                width={120}
+                height={70}
               />
+              <h2 className="text-green-800 text-lg font-bold text-center">Real Time Chat</h2>
         </header>
+        </div>
           
           { children }
     </>
