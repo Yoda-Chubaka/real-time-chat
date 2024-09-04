@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 
 const RegisterPage = () => {
@@ -29,14 +30,25 @@ const RegisterPage = () => {
         setUploadPhoto(file);
     }
 
-    console.log("UploadPhoto", uploadPhoto)
+    const handleClearUploadPhoto = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setUploadPhoto(null);
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        console.log("data", data);
+    }
 
     return (
         <div className="mt-5">
-            <div className="bg-white w-full max-w-sm mx-2 rounded overflow-hidden p-4">
-                <h3>Welcome to Real Time Chat</h3>
+            <div className="bg-white w-full max-w-sm rounded overflow-hidden p-4 mx-auto">
+                <h3>Welcome to Real Time Chat!</h3>
 
-                <form className="grid gap-4 mt-5">
+                <form className="grid gap-4 mt-5" onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="name">Name: </label>
                         <input
@@ -85,12 +97,17 @@ const RegisterPage = () => {
                             <div className="h-14 bg-slate-200 flex justify-center items-center border rounded hover:border-primary cursor-pointer">
                                 <p className="text-base max-w-[300px] text-ellipsis line-clamp-1">
                                     {
-                                        uploadPhoto.name? uploadPhoto.name: "Upload profile photo"
+                                        uploadPhoto?.name? uploadPhoto?.name: "Upload profile photo"
                                     }
                                 </p>
-                                <button className="text-lg ml-2 hover:text-red-600">
-                                    <IoClose/>
-                                </button>
+                                {
+                                    uploadPhoto?.name && (
+                                        <button className="text-lg ml-2 hover:text-red-600" onClick={handleClearUploadPhoto}>
+                                            <IoClose/>
+                                        </button>
+                                    )
+                                }
+                                
 
                             </div>
 
@@ -108,7 +125,15 @@ const RegisterPage = () => {
                             onChange={handleUploadPhoto}
                         />
                     </div>
+
+                    <button className="bg-primary text-lg px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide">
+                        Register
+                    </button>
                 </form>
+
+                <p className="my-3 text-center">
+                    Already have account ? <Link to={"/email"} className="hover:text-primary font-semibold">Login</Link>
+                </p>
             </div>
         </div>
     )
@@ -116,4 +141,4 @@ const RegisterPage = () => {
 
 export default RegisterPage;
 
-// 1:47
+// 2:03

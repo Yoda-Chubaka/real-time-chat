@@ -10,7 +10,7 @@ const AuthLayouts = ({children}) => {
                 src={logo}
                 alt="logo"
                 width={120}
-                height={70}
+                height={60}
               />
               <h2 className="text-green-800 text-lg font-bold text-center">Real Time Chat</h2>
         </header>
