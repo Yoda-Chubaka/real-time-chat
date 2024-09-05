@@ -1,12 +1,15 @@
-// import logo from './logo.jpg';
 import './App.css';
 import { Outlet } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <main>
+   <> 
+      <Toaster/>
+       <main>
         <Outlet/>
-    </main>
+       </main>
+   </>
   );
 }
 
