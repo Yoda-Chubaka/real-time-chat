@@ -56,7 +56,7 @@ const CheckEmailPage = () => {
         <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
 
         <div className="w-fit mx-auto mb-2">
-            <PiUserCircle
+            <PiUserCircle className="fill-emerald-600"
             size={80}
             />
         </div>

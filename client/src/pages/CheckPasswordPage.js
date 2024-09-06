@@ -55,13 +55,17 @@ const CheckPasswodPage = () => {
 
   return (
     <div className='mt-5'>
-        <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
+        <div className='bg-white w-full max-w-md rounded overflow-hidden p-4 mx-auto'>
 
         <div className="w-fit mx-auto mb-2">
             {/* <PiUserCircle
             size={80}
             /> */}
-            <Avatar/>
+            <Avatar
+              width = {70}
+              height={70}
+              name={"Anastasiia Polishchuk"}
+            />
         </div>
         
           <h3>Welcome to Chat app!</h3>
