@@ -27,11 +27,10 @@ const Avatar = ({userId, name, imageUrl, width, height}) => {
         "bg-blue-200"
     ]
 
-    const randomNumber = Math.floor(Math.random() * 9)
-    console.log(randomNumber);
+    const randomNumber = Math.floor(Math.random() * 9);
 
   return (
-      <div className={`text-slate-800 overflow-hidden rounded-full shadow border text-xl font-bold ${bgColor[randomNumber]}`} style={{width: width + "px", height: height + "px"}}>
+      <div className={`text-slate-800 overflow-hidden rounded-full font-bold`} style={{width: width + "px", height: height + "px"}}>
           {
               imageUrl ? (
                   <img
@@ -43,11 +42,11 @@ const Avatar = ({userId, name, imageUrl, width, height}) => {
                   />
               ) : (
                       name ? (
-                          <div style={{width: width + "px", height: height + "px"}} className = "overflow-hidden rounded-full flex justify-center items-center">
+                          <div style={{ width: width + "px", height: height + "px" }} className={`overflow-hidden rounded-full text-lg flex justify-center items-center ${bgColor[randomNumber]}`}>
                               {avatarName}
                           </div>
                       ): (
-                          <PiUserCircle
+                          <PiUserCircle className="fill-emerald-600"
                             size={width}
                         />    
                       )
