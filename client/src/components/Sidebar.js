@@ -38,7 +38,7 @@ const Sidebar = () => {
                   />
                 </button>
                 <button title="Logout" className='w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded'>
-                      <span clasName="-ml-2">
+                      <span className="-ml-2">
                         <BiLogOut 
                           size = {20}
                         />
