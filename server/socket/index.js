@@ -1,6 +1,7 @@
 const express = require("express");
 const { Server } = require("socket.io");
 const http = require("http");
+const getUserDetailsFromToken = require("../helpers/getUserDetailsFromToken");
 
 const app = express();
 
@@ -13,9 +14,26 @@ const io = new Server(server, {
     }
 })
 
+// server running at http://localhost:8080/
 
-io.on("connection", (socket) => {
+// online user
+const onlineUser = new Set();
+
+io.on("connection", async (socket) => {
     console.log("connect user:", socket.id);
+
+    const token = socket.handshake.auth.token;
+
+    // current user details
+    const user = await getUserDetailsFromToken(token);
+
+    // create a room
+    socket.join(user?._id);
+    onlineUser.add(user?._id);
+
+    io.emit("onlineUser", Array.from(onlineUser));
+
+    console.log("user:", user)
 
     // disconnect
     io.on("disconnect", () => {
@@ -27,3 +45,5 @@ module.exports= {
     app,
     server
 }
+
+// 5:52
