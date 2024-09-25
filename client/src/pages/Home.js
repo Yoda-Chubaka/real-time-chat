@@ -38,6 +38,8 @@ const Home = () => {
     fetchUserDetails()
   }, [])
 
+  // socket connection
+
   const basePath = location.pathname === '/';
 
   return (
@@ -65,3 +67,5 @@ const Home = () => {
 }
 
 export default Home
+
+// 5:45
