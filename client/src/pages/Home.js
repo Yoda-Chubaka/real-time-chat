@@ -5,6 +5,7 @@ import axios from "axios";
 import { logout, setUser } from "../redux/userSlice";
 import Sidebar from "../components/Sidebar";
 import logo from "../assets/logo-10.png";
+import io from "socket.io-client";
 
 const Home = () => {
   const user = useSelector(state => state.user);
@@ -39,6 +40,17 @@ const Home = () => {
   }, [])
 
   // socket connection
+  useEffect(() => {
+    const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
+      auth: {
+        token: localStorage.getItem('token')
+      }
+    })
+
+    return () => {
+      socketConnection.disconnect();
+    }
+  }, [])
 
   const basePath = location.pathname === '/';
 
