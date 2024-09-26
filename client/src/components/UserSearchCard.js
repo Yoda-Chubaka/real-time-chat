@@ -9,7 +9,9 @@ const UserSearchCard = ({user, onClose}) => {
             <Avatar
                 width = {50}
                 height = {50}
-                name = {user?.name}/>
+                name = {user?.name}
+                userId = {user?._id}
+            />
         </div>
         <div className="font-semibold text-ellipsis line-clamp-1">
             {user?.name}
