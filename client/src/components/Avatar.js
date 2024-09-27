@@ -62,7 +62,7 @@ const Avatar = ({userId, name, imageUrl, width, height}) => {
                 <div className="bg-green-500 p-1 absolute bottom-2 right-0 z-10 rounded-full"></div>
             )
         }
-        
+        {/* -z-1 */}
 
         
     </div>
