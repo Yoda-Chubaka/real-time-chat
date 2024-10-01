@@ -3,7 +3,7 @@ import Avatar from './Avatar'
 import uploadFile from '../helpers/uploadFile'
 import Divider from './Divider'
 import axios from 'axios'
-import taost from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../redux/userSlice'
 
@@ -70,7 +70,7 @@ const EditUserDetails = ({onClose,user}) => {
             })
 
             console.log('response',response)
-            taost.success(response?.data?.message)
+            toast.success(response?.data?.message)
             
             if(response.data.success){
                 dispatch(setUser(response.data.data))
@@ -79,7 +79,7 @@ const EditUserDetails = ({onClose,user}) => {
          
         } catch (error) {
             console.log(error)
-            taost.error()
+            toast.error()
         }
     }
   return (
