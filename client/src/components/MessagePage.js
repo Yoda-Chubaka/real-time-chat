@@ -9,6 +9,9 @@ import { FaImage } from "react-icons/fa6";
 import { FaVideo } from "react-icons/fa";
 import uploadFile from '../helpers/uploadFile';
 import { IoClose } from "react-icons/io5";
+import Loading from './Loading';
+import backgroundImage from "../assets/wallpaper-9.jpg";
+import { IoMdSend } from "react-icons/io";
 
 const MessagePage = () => {
   const params = useParams();
@@ -40,6 +43,7 @@ const MessagePage = () => {
     setLoading(true)
     const uploadPhoto = await uploadFile(file)
     setLoading(false)
+    setOpenImageVideoUpload(false)
 
     setMessage(previous => {
       return {
@@ -66,7 +70,7 @@ const MessagePage = () => {
     setLoading(true)
     const uploadPhoto = await uploadFile(file)
     setLoading(false)
-    // setOpenImageVideoUpload(false)
+    setOpenImageVideoUpload(false)
 
     setMessage(previous => {
       return{
@@ -94,6 +98,34 @@ const MessagePage = () => {
       }
 
     }, [socketConnection, params?.userId, user])
+
+    const handleOnChange = (e) => {
+      const { name, value } = e.target;
+
+      setMessage(previous => {
+        return {
+          ...previous,
+          text: value
+        }
+      })
+    }
+
+    const handleSendMessage = (e) => {
+      e.preventDefault();
+
+      if (message.text || message.imageUrl || message.videoUrl) {
+        if (socketConnection) {
+          socketConnection.emit("new message", {
+            sender: user?._id,
+            receiver: params.userId,
+            text: message.text,
+            imageUrl: message.imageUrl,
+            videoUrl: message.videoUrl
+          })
+        }
+      }
+    }
+
   
   return (
     <div>
@@ -129,7 +161,7 @@ const MessagePage = () => {
       </header>
 
       {/* Show all messages */}
-      <section className="h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar relative">
+      <section style={{ backgroundImage: `url(${backgroundImage})`}} className="h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar relative opacity-30">
 
         {/* Upload Image Display */}
         {
@@ -169,16 +201,19 @@ const MessagePage = () => {
                     )
                   }
 
-            {/* START FROM HERE!!!!!!! */}
-                  {/* {
+                  {
                     loading && (
-                    
+                      <div className="w-full h-full flex justify-center items-center">
+                        <Loading/>
+                      </div>
                     )
-                  } */}
+                  }
         
               Show all messages
       </section>
 
+
+      {/* Send message */}
       <section className="h-16 bg-white flex items-center px-4">
         <div className="relative">
             <button onClick = {handleUploadImageVideoOpen} className="flex justify-center items-center w-11 h-11 rounded-full hover:bg-primary hover:text-white cursor-pointer">
@@ -206,12 +241,14 @@ const MessagePage = () => {
                     type="file"
                     id="uploadImage"
                     onChange={handleUploadImage}
+                    classname="hidden"
                   />
 
                   <input
                     type="file"
                     id="uploadVideo"
                     onChange={handleUploadVideo}
+                    classname="hidden"
                   />
                 </form>
                   </div>
@@ -219,7 +256,24 @@ const MessagePage = () => {
               }
             
         </div>
+
+        <form className="h-full w-full flex gap-2" onSubmit={handleSendMessage}>
+          {/* Input Box */}
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="py-1 px-4 outline-none w-full h-full"
+              value={message.text}
+              onChange={handleOnChange}
+            />
+
+            <button className="text-primary hover:text-secondary">
+              <IoMdSend size={28}/>
+            </button>
+        </form>
       </section>
+
+      
     </div>
   )
 }
