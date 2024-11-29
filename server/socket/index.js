@@ -48,7 +48,10 @@ io.on("connection", async (socket) => {
         socket.emit("message-user", payload);
     })
 
-    console.log("user:", user)
+    // new message
+    socket.on("new message", (data) => {
+        console.log("new message", data)
+    })
 
     // disconnect
     socket.on("disconnect", () => {
@@ -62,4 +65,4 @@ module.exports= {
     server
 }
 
-// 5:52
+// 7:21
