@@ -17,7 +17,7 @@ const MessagePage = () => {
   const params = useParams();
   const socketConnection = useSelector(state => state?.user?.socketConnection);
   const user = useSelector(state => state?.user)
-  const [dataUser, setDatauser] = useState({
+  const [dataUser, setDataUser] = useState({
     name: "",
     email: "",
     profile_pic: "",
@@ -93,7 +93,11 @@ const MessagePage = () => {
         socketConnection.emit("message-page", params.userId);
 
         socketConnection.on("message-user", (data) => {
-          setDatauser(data);
+          setDataUser(data);
+        })
+
+        socketConnection.on("message", (data) => {
+          console.log("message data", data)
         })
       }
 
@@ -120,7 +124,8 @@ const MessagePage = () => {
             receiver: params.userId,
             text: message.text,
             imageUrl: message.imageUrl,
-            videoUrl: message.videoUrl
+            videoUrl: message.videoUrl,
+            messageByUserId: user?._id
           })
         }
       }
