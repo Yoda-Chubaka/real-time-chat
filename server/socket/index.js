@@ -52,11 +52,11 @@ io.on('connection',async(socket)=>{
         socket.emit('message-user',payload)
 
 
-         //get previous message
+         //get previous messages
          const getConversationMessage = await ConversationModel.findOne({
             "$or" : [
                 { sender : user?._id, receiver : userId },
-                { sender : userId, receiver :  user?._id}
+                { sender : userId, receiver :  user?._id }
             ]
         }).populate('messages').sort({ updatedAt : -1 })
 
@@ -111,6 +111,34 @@ io.on('connection',async(socket)=>{
         
     })
 
+    // sidebar
+    socket.on("sidebar", async (currentUserId) => {
+        console.log("current user", currentUserId)
+
+        const currentUserConversation = await ConversationModel.find({
+            "$or": [
+                { sender: currentUserId},
+                { receiver: currentUserId}
+            ]
+        }).sort({ updatedAt: -1 }).populate("messages")
+
+        console.log("currentUserConversation", currentUserConversation)
+
+        const conversation = currentUserConversation.map((conv) => {
+
+            const countUnseenMsg = conv.messages.reduce((previous, current) => previous + (current.seen ? 0 : 1), 0)
+            return {
+                id: conv?._id,
+                sender: conv?.sender,
+                receiver: conv?.receiver,
+                unseenMsg: countUnseenMsg,
+                lastMsg: conv.messages[conv?.messages?.length - 1]
+            }
+        })
+
+        socket.emit("conversation", currentUserConversation)
+    })
+
     // disconnect
     socket.on("disconnect", () => {
         onlineUser.delete(user?._id);
@@ -123,4 +151,4 @@ module.exports= {
     server
 }
 
-// 7:21
+// 8:22
