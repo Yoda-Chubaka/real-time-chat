@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Avatar from "./Avatar";
 import { useSelector } from "react-redux";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import EditUserDetails from "./EditUserDetails";
 import Divider from "./Divider";
 import { LuArrowUpLeft } from "react-icons/lu";
@@ -16,6 +16,18 @@ const Sidebar = () => {
   const [editUserOpen, setEditUserOpen] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [openSearchUser, setOpenSearchUser] = useState(false);
+  const socketConnection = useSelector(state => state?.user?.socketConnection)
+
+  useEffect(() => {
+    if (socketConnection) {
+      socketConnection.emit("sidebar", user?._id)
+
+      socketConnection.on("conversation", (data) => {
+        console.log("conversation", data)
+      })
+
+    }
+  }, [socketConnection, user])
 
   return (
     <div className="w-full h-full grid grid-cols-[48px,1fr] bg-white">
