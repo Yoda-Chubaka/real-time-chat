@@ -4,7 +4,7 @@ const http  = require('http')
 const getUserDetailsFromToken = require('../helpers/getUserDetailsFromToken')
 const UserModel = require('../models/UserModel')
 const { ConversationModel,MessageModel } = require('../models/ConversationModel')
-// const getConversation = require('../helpers/getConversation')
+const getConversation = require('../helpers/getConversation')
 
 const app = express()
 
@@ -52,11 +52,11 @@ io.on('connection',async(socket)=>{
         socket.emit('message-user',payload)
 
 
-         //get previous messages
+         //get previous message
          const getConversationMessage = await ConversationModel.findOne({
             "$or" : [
                 { sender : user?._id, receiver : userId },
-                { sender : userId, receiver :  user?._id }
+                { sender : userId, receiver :  user?._id}
             ]
         }).populate('messages').sort({ updatedAt : -1 })
 
@@ -108,47 +108,57 @@ io.on('connection',async(socket)=>{
         io.to(data?.sender).emit('message',getConversationMessage?.messages || [])
         io.to(data?.receiver).emit('message',getConversationMessage?.messages || [])
 
+        //send conversation
+        const conversationSender = await getConversation(data?.sender)
+        const conversationReceiver = await getConversation(data?.receiver)
+
+        io.to(data?.sender).emit('conversation',conversationSender)
+        io.to(data?.receiver).emit('conversation',conversationReceiver)
+    })
+
+
+    //sidebar
+    socket.on('sidebar',async(currentUserId)=>{
+        console.log("current user",currentUserId)
+
+        const conversation = await getConversation(currentUserId)
+
+        socket.emit('conversation',conversation)
         
     })
 
-    // sidebar
-    socket.on("sidebar", async (currentUserId) => {
-        console.log("current user", currentUserId)
-
-        const currentUserConversation = await ConversationModel.find({
-            "$or": [
-                { sender: currentUserId},
-                { receiver: currentUserId}
+    socket.on('seen',async(msgByUserId)=>{
+        
+        let conversation = await ConversationModel.findOne({
+            "$or" : [
+                { sender : user?._id, receiver : msgByUserId },
+                { sender : msgByUserId, receiver :  user?._id}
             ]
-        }).sort({ updatedAt: -1 }).populate("messages")
-
-        console.log("currentUserConversation", currentUserConversation)
-
-        const conversation = currentUserConversation.map((conv) => {
-
-            const countUnseenMsg = conv.messages.reduce((previous, current) => previous + (current.seen ? 0 : 1), 0)
-            return {
-                id: conv?._id,
-                sender: conv?.sender,
-                receiver: conv?.receiver,
-                unseenMsg: countUnseenMsg,
-                lastMsg: conv.messages[conv?.messages?.length - 1]
-            }
         })
 
-        socket.emit("conversation", currentUserConversation)
+        const conversationMessageId = conversation?.messages || []
+
+        const updateMessages  = await MessageModel.updateMany(
+            { _id : { "$in" : conversationMessageId }, msgByUserId : msgByUserId },
+            { "$set" : { seen : true }}
+        )
+
+        //send conversation
+        const conversationSender = await getConversation(user?._id?.toString())
+        const conversationReceiver = await getConversation(msgByUserId)
+
+        io.to(user?._id?.toString()).emit('conversation',conversationSender)
+        io.to(msgByUserId).emit('conversation',conversationReceiver)
     })
 
-    // disconnect
-    socket.on("disconnect", () => {
-        onlineUser.delete(user?._id);
-        console.log("disconnect user:", socket.id);
+    //disconnect
+    socket.on('disconnect',()=>{
+        onlineUser.delete(user?._id?.toString())
+        console.log('disconnect user ',socket.id)
     })
 })
 
-module.exports= {
+module.exports = {
     app,
     server
 }
-
-// 8:22

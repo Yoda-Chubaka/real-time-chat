@@ -12,7 +12,7 @@ async function userDetails(request, response) {
         });
 
     } catch (error) {
-        return reponse.status(500).json({
+        return response.status(500).json({
             message: error.message || error,
             error: true
         })
