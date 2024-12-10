@@ -10,7 +10,7 @@ import { FaVideo } from "react-icons/fa6";
 import uploadFile from '../helpers/uploadFile';
 import { IoClose } from "react-icons/io5";
 import Loading from './Loading';
-import backgroundImage from '../assets/wallpaper-9.jpg'
+import backgroundImage from '../assets/wallpaper-18.webp'
 import { IoMdSend } from "react-icons/io";
 import moment from 'moment'
 
@@ -113,7 +113,7 @@ const MessagePage = () => {
   },[socketConnection,params?.userId,user])
 
   const handleOnChange = (e)=>{
-    const { name, value} = e.target
+    const { value} = e.target
 
     setMessage(preve => {
       return{
@@ -147,7 +147,7 @@ const MessagePage = () => {
 
 
   return (
-    <div style={{ backgroundImage : `url(${backgroundImage})`}}>
+    <div style={{ backgroundImage : `url(${backgroundImage})`}} className='bg-no-repeat bg-cover'>
           <header className='sticky top-0 h-16 bg-white flex justify-between items-center px-4'>
               <div className='flex items-center gap-4'>
                   <Link to={"/"} className='lg:hidden'>
@@ -188,12 +188,13 @@ const MessagePage = () => {
                     {
                       allMessage.map((msg,index)=>{
                         return(
-                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-teal-100" : "bg-white"}`}>
+                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-teal-200" : "bg-green-200"}`}>
                             <div className='w-full relative'>
                               {
                                 msg?.imageUrl && (
                                   <img 
                                     src={msg?.imageUrl}
+                                    alt="message"
                                     className='w-full h-full object-scale-down'
                                   />
                                 )
