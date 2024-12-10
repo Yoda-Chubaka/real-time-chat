@@ -108,7 +108,7 @@ const CheckPasswordPage = () => {
 
           </form>
 
-          <p className='my-3 text-center'><Link to={"/forgot-password"} className='hover:text-primary font-semibold'>Forgot password ?</Link></p>
+          {/* <p className='my-3 text-center'><Link to={"/forgot-password"} className='hover:text-primary font-semibold'>Forgot password ?</Link></p> */}
         </div>
     </div>
   )

@@ -10,7 +10,7 @@ import { FaVideo } from "react-icons/fa6";
 import uploadFile from '../helpers/uploadFile';
 import { IoClose } from "react-icons/io5";
 import Loading from './Loading';
-import backgroundImage from '../assets/wallpaper-18.webp'
+import backgroundImage from '../assets/wallpaper-29.jpeg'
 import { IoMdSend } from "react-icons/io";
 import moment from 'moment'
 
@@ -188,7 +188,7 @@ const MessagePage = () => {
                     {
                       allMessage.map((msg,index)=>{
                         return(
-                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-teal-200" : "bg-green-200"}`}>
+                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-blue-300" : "bg-red-300"}`}>
                             <div className='w-full relative'>
                               {
                                 msg?.imageUrl && (
