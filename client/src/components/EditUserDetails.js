@@ -3,27 +3,24 @@ import Avatar from './Avatar'
 import uploadFile from '../helpers/uploadFile'
 import Divider from './Divider'
 import axios from 'axios'
-import taost from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../redux/userSlice'
 
 
-const EditUserDetails = ({onClose,user}) => {
-    const [data,setData] = useState({
-        
-        name : user?.user,
-        profile_pic : user?.profile_pic
+const EditUserDetails = ({ onClose, user }) => {
+    const [data, setData] = useState({ 
+        name: user?.user || '',
+        profile_pic: user?.profile_pic || ''
     })
     const uploadPhotoRef = useRef()
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        setData((preve)=>{
-            return{
-                ...preve,
-                ...user
-            }
-        })
+    useEffect(() => {
+        setData((prev) => ({
+            ...prev,
+            ...user
+        }))
     },[user])
 
     const handleOnChange = (e)=>{
@@ -69,8 +66,8 @@ const EditUserDetails = ({onClose,user}) => {
                 withCredentials : true
             })
 
-            console.log('response',response)
-            taost.success(response?.data?.message)
+            console.log('response', response)
+            toast.success(response?.data?.message)
             
             if(response.data.success){
                 dispatch(setUser(response.data.data))
@@ -79,31 +76,33 @@ const EditUserDetails = ({onClose,user}) => {
          
         } catch (error) {
             console.log(error)
-            taost.error()
+            toast.error()
         }
     }
+
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0 bg-gray-700 bg-opacity-40 flex justify-center items-center z-10'>
         <div className='bg-white p-4 py-6 m-1 rounded w-full max-w-sm'>
-            <h2 className='font-semibold'>Profile Details</h2>
-            <p className='text-sm '>Edit user details</p>
+            <h2 className='font-semibold flex justify-center items-center'>Profile Details</h2>
+            {/* <p className='text-sm flex justify-center items-center'>Edit user details</p> */}
 
-            <form className='grid gap-3 mt-3' onSubmit={handleSubmit}>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor='name'>Name:</label>
-                    <input
+            <div className='grid gap-3 mt-3' onSubmit={handleSubmit}>
+                <div className='flex flex-col justify-center items-center'>
+                    {/* <label htmlFor='name'>Name:</label> */}
+                    {/* <input
                         type='text'
                         name='name'
                         id='name'
                         value={data.name}
                         onChange={handleOnChange}
-                        className='w-full py-1 px-2 focus:outline-primary border-0.5'
-                    />
+                        className='w-full py-1 px-2 focus:outline-primary border-0.5 flex justify-center items-center'
+                    /> */}
+                    <p onChange={handleOnChange} className='w-full py-1 px-2 focus:outline-primary border-0.5 flex justify-center items-center'>{data.name}</p>
                 </div>
 
                 <div>
-                    <div>Photo:</div>
-                    <div className='my-1 flex items-center gap-4'>
+                    <div className="flex justify-center items-center">Photo:</div>
+                    <div className='my-1 flex justify-center items-center'>
                         <Avatar
                             width={40}
                             height={40}
@@ -111,7 +110,7 @@ const EditUserDetails = ({onClose,user}) => {
                             name={data?.name}
                         />
                         <label htmlFor='profile_pic'>
-                        <button className='font-semibold' onClick={handleOpenUploadPhoto}>Change Photo</button>
+                        {/* <button className='font-semibold' onClick={handleOpenUploadPhoto}>Change Photo</button> */}
                         <input
                             type='file'
                             id='profile_pic'
@@ -124,11 +123,11 @@ const EditUserDetails = ({onClose,user}) => {
                 </div>
 
                 <Divider/>    
-                <div className='flex gap-2 w-fit ml-auto '>
-                    <button onClick={onClose} className='border-primary border text-primary px-4 py-1 rounded hover:bg-primary hover:text-white'>Cancel</button>
-                    <button onClick={handleSubmit} className='border-primary bg-primary text-white border px-4 py-1 rounded hover:bg-secondary'>Save</button>
+                <div className='flex justify-center items-center'>
+                    <button onClick={onClose} className=' border-primary border text-primary px-4 py-1 rounded hover:bg-primary hover:text-white'>Close</button>
+                    {/* <button onClick={handleSubmit} className='border-primary bg-primary text-white border px-4 py-1 rounded hover:bg-secondary'>Save</button> */}
                 </div>
-            </form>
+            </div>
         </div>
     </div>
   )
