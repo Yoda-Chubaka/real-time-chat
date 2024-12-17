@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { logout, setOnlineUser, setSocketConnection, setUser } from '../redux/userSlice'
 import Sidebar from '../components/Sidebar'
-import logo from '../assets/logo-10.png'
+import logo from '../assets/logo-1.png'
 import io from 'socket.io-client'
 
 const Home = () => {
@@ -60,6 +60,7 @@ const Home = () => {
 
 
   const basePath = location.pathname === '/'
+  
   return (
     <div className='grid lg:grid-cols-[300px,1fr] h-screen max-h-screen'>
         <section className={`bg-white ${!basePath && "hidden"} lg:block`}>

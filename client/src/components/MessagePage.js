@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import Avatar from './Avatar'
-import { HiDotsVertical } from "react-icons/hi";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { FaImage } from "react-icons/fa6";
@@ -10,7 +9,7 @@ import { FaVideo } from "react-icons/fa6";
 import uploadFile from '../helpers/uploadFile';
 import { IoClose } from "react-icons/io5";
 import Loading from './Loading';
-import backgroundImage from '../assets/wallpaper-29.jpeg'
+import backgroundImage from '../assets/wallpaper-6.jpeg'
 import { IoMdSend } from "react-icons/io";
 import moment from 'moment'
 
@@ -171,12 +170,6 @@ const MessagePage = () => {
                      </p>
                   </div>
               </div>
-
-              <div >
-                    <button className='cursor-pointer hover:text-primary'>
-                      <HiDotsVertical/>
-                    </button>
-              </div>
           </header>
 
           {/***show all message */}
@@ -188,7 +181,7 @@ const MessagePage = () => {
                     {
                       allMessage.map((msg,index)=>{
                         return(
-                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-blue-300" : "bg-red-300"}`}>
+                          <div className={` p-1 py-1 rounded w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId ? "ml-auto bg-blue-300" : "bg-purple-300"}`}>
                             <div className='w-full relative'>
                               {
                                 msg?.imageUrl && (
